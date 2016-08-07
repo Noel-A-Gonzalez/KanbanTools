@@ -73,26 +73,41 @@ var user = function(){
 
     var save = function(){
         var par = $(this).parents("tr"); //tr 
-        var trID = par.attr("id");
-        var tdNombre = par.children("td:nth-child(2)"); 
-        var tdApellido = par.children("td:nth-child(3)"); 
-        var tdMail = par.children("td:nth-child(4)");
-        var tdNAcceso = par.children("td:nth-child(5)");
+            trID = par.attr("id");
+            tdNombre = par.children("td:nth-child(2)"); 
+            tdApellido = par.children("td:nth-child(3)"); 
+            tdMail = par.children("td:nth-child(4)");
+            tdNAcceso = par.children("td:nth-child(5)");
 
-        tdNombre.text($("#txtName").val());
-        tdApellido.text($("#txtApe").val());
-        tdMail.text($("#txtMail").val());
-        tdNAcceso.text($("#txtAcce").val());
-        //$(".btn-save").hide();
-        //$(".btn-edit").show();
-        $("#"+trID).find(".btn-save").hide();
-        $("#"+trID).find(".btn-edit").show();
+        var name = $("#txtName").val();
+            ape = $("#txtApe").val();
+            mail = $("#txtMail").val();
+            nacceso = $("#txtAcce").val();
+        $.post("../rusers/updateUser", {idUser:par.attr('id'), name:name, ape:ape, mail:mail, nacc:nacceso})
+        .done(function(){
+            tdNombre.text(name);
+            tdApellido.text(ape);
+            tdMail.text(mail);
+            tdNAcceso.text(nacceso);
+            $("#"+trID).find(".btn-save").hide();
+            $("#"+trID).find(".btn-edit").show();
+
+            Lobibox.alert("success",{
+                title: "Éxito",
+                msg: "Actualización exitosa."
+            });
+        })
+        .fail(function(){
+            Lobibox.alert("danger",{
+                title: "ERROR",
+                msg: "Ha ocurrido un error al intentar actualizar los datos del usuario."
+            });
+        })
     }
 
     var deleteUser = function(){
         var par = $(this).parents("tr");
         
-
         Lobibox.confirm({
             title: "Confirmar",
             buttons: {
@@ -110,18 +125,31 @@ var user = function(){
             msg: "¿Seguro que quiere eliminar este Usuario?",
             callback: function ($this, type, ev) {
                 if (type == "yes") {
-                    par.remove();
+                    $.post("../rusers/deleteUser", {idUsuario: par.attr('id')})
+                    .done(function(){
+                        Lobibox.alert("success",{
+                            title: "Éxito",
+                            msg: "El usuario se ha eliminado con éxito."
+                        });
+                        par.remove();
+                    })
+                    .fail(function(){
+                        Lobibox.alert("danger",{
+                            title: "ERROR",
+                            msg: "Ha ocurrido un error al intentar eliminar el usuario."
+                        });
+                    })
                 };
             }
         });
     }
-
 
     var perfil = function(){
         $.get('../rsesion/getSesion')
         .done(function(datos){
             $.get("../rsesion/getDataUser", {user: datos.user})
             .done(function(data){
+                $("#input_userName").attr('disabled','disabled');   
                 $("#input_name").val(data[0].u_username);
                 $("#input_ape").val(data[0].u_surname);
                 $("#input_mail").val(data[0].u_email);

@@ -12,7 +12,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="stylesheets/lib/AdminLTE.css">
   <link rel="stylesheet" href="stylesheets/lib/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../stylesheets/lib/datatables/dataTables.bootstrap.css">
 
+<style type="text/css">
+  .row{
+    margin: 5px 5px;
+  }
+</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -127,7 +133,31 @@
     </section>
     <section class="content">
       <div class="row">
-        
+
+        <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Tareas desde su creación</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="tblReport" class="table table-bordered table-hover table-responsive">
+                <thead>
+                <tr>
+                  <th>#Nro. Tarea</th>
+                  <th>Titulo</th>
+                  <th>Fecha de Inicio</th>
+                  <th>Fecha de Fin</th>
+                  <th>Cant. de días</th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
       </div>
     </section>
   </div>
@@ -139,6 +169,10 @@
 <script src="bower_components/lobilist/lib/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="bower_components/lobilist/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../javascripts/lib/datatables/jquery.dataTables.min.js"></script>
+<script src="../javascripts/lib/datatables/dataTables.bootstrap.min.js"></script>
+<script src="../javascripts/lib/moment.min.js"></script>
+<script src="../javascripts/lib/moment-with-locales.min.js"></script>
 <!-- AdminLTE App -->
 <script src="javascripts/lib/app.min.js"></script>
 <script src="../javascripts/admin/user.js"></script>

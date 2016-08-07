@@ -13,6 +13,8 @@ var routes = require('./routes/index');
 var rsesion = require('./routes/rsesion');
 var rstatus = require('./routes/rstatus');
 var ritem = require('./routes/ritem');
+var rusers = require('./routes/rusers');
+var report = require('./routes/report');
 
 require("./public/config-social/passport.js")(passport);
 
@@ -52,6 +54,8 @@ app.use('/', routes);
 app.use('/rstatus', rstatus);
 app.use('/ritem', ritem);
 app.use('/rsesion', rsesion);
+app.use('/rusers', rusers);
+app.use('/report', report);
 
 
 

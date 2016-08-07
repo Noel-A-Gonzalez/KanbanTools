@@ -18,8 +18,10 @@ var posit = function(){
                     var listgetItem = $($(this)[0]).parents().eq(1).attr("id");
                     var nextList = $(".lobilist").eq(indice+1).attr("id");
                     var item = $("#" + listgetItem).find(".lobilist-items>.nowait").get(0);
+                    var listOrigen = $(".lobilist").eq(indice).attr("id");
+                    
                     column.showProcess(nextList);
-                    $.post("ritem/updateStatus", {positID: $(item).data("id"), listID: nextList, fecha: fecha})
+                    $.post("ritem/updateStatus", {positID: $(item).data("id"), listOrigenID: listOrigen, listID: nextList, fecha: fecha})
                     .done(function(){
                         column.hideProcess(nextList);
                         $("#" + nextList).find("ul").append(item).find("li:last").hide().fadeIn(700).effect("bounce");
@@ -48,8 +50,10 @@ var posit = function(){
                     var listgetItem = $($(this)[0]).parents().eq(1).attr("id");
                     var nextList = $(".lobilist").eq(indice-1).attr("id");
                     var item = $("#" + listgetItem).find(".lobilist-items>.nowait").get(0);
+                    var listOrigen = $(".lobilist").eq(indice).attr("id");
+
                     column.showProcess(nextList);
-                    $.post("ritem/updateStatus", {positID: $(item).data("id"), listID: nextList, fecha:fecha})
+                    $.post("ritem/updateStatus", {positID: $(item).data("id"), listOrigenID: listOrigen, listID: nextList, fecha:fecha})
                     .done(function(){
                         column.hideProcess(nextList);
                         $("#" + nextList).find("ul").append(item).find("li:last").hide().fadeIn(700).effect("bounce");

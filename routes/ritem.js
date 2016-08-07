@@ -80,9 +80,11 @@ ritem.post("/deleteFecWait", function(req, res){
 
 ritem.post("/updateStatus", function(req, res){
   var itemid = req.body.positID;
-      idList = req.body.listID;
+      idListDest = req.body.listID;
+      idListOrig = req.body.listOrigenID
       fecha = req.body.fecha;
-  client.query("SELECT * FROM app_kanban.updateStatus($1, $2, $3)", [itemid, idList, fecha], function(err, result) {
+
+  client.query("SELECT * FROM app_kanban.updateStatus($1, $2, $3, $4)", [itemid, idListOrig, idListDest, fecha], function(err, result) {
     if (err) {
         console.log(err);
         res.status(500);
