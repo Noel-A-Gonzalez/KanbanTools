@@ -38,8 +38,18 @@ router.get('/admin/header', estaLogeado, function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
+  var error_message = req.flash('error')[0];
+  res.locals.error_message = error_message;
+  console.log(error_message);
   	res.render('login.html');
+    //{ messages: req.flash('info') }
 });
+
+router.post('/loginLocal',
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true })
+);
 
 
 /*============================================================================

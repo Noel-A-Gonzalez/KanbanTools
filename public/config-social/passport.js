@@ -1,5 +1,7 @@
+var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
     gcal = require('google-calendar');
+    LocalStrategy = require('passport-local').Strategy;
 
 var configAuth = require('./auth');
 var client = require("../../routes/config/pg.js");
@@ -29,11 +31,9 @@ module.exports = function(passport) {
         scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar'] 
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log("probando");
         profile.accessToken = accessToken;
         return done(null, profile);
     }));
-
 
     // =========================================================================
     // GOOGLE CONFIGURACION ====================================================
@@ -73,4 +73,32 @@ module.exports = function(passport) {
             });        
     }));
 
+
+    // =========================================================================
+    // AUTENTICACION Y CONFIGURACION LOCAL =====================================
+    // =========================================================================
+    passport.use(new LocalStrategy(
+      function(username, password, done) {
+        client.query("SELECT * FROM app_kanban.users WHERE u_email = ($1)",[username], function(err, result) {
+            if (err)
+                return done(null, false);
+            if (result.rows.length) {
+                return done(null, result.rows[0]);
+            }else{
+                return done(null, false, {message: "El usuario o la contraseña es Incorrecta. Intente Nuevamente.."});
+            }
+        });
+
+       /* User.findOne({ username: username }, function(err, user) {
+          if (err) { return done(err); }
+          if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+          }
+          if (!user.validPassword(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+          }
+          return done(null, user);
+        });*/
+      }
+    ));
 };
