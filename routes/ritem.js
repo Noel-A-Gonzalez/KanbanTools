@@ -26,7 +26,7 @@ ritem.post("/saveItem", function(req, res) {
                 date: req.body.date,
                 list: req.body.list,
               };
-  client.query("INSERT INTO app_kanban.posit (posit_id, status_id, p_title, p_description, p_fecha_create, p_fecha_wait) VALUES ($1, $2, $3, $4, $5, $6)", [item.id, item.list, item.title, item.descr, fecha, item.date], function(err, result) {
+  client.query("SELECT * FROM app_kanban.sp_insert_posit($1, $2, $3, $4, $5, $6)", [item.id, item.list, item.title, item.descr, fecha, item.date], function(err, result) {
     if (err) {
         console.log(err);
         res.status(500);
