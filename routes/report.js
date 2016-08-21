@@ -49,4 +49,52 @@ report.get("/getDataReport2", function(req, res) {
 	});
 });
 
+
+/*OBTIENE LOS DATOS PARA EL REPORTE TIME LIFE*/
+
+report.get("/getDataTimeLife", function(req, res) {
+	var jsonStringify, data;
+	client.query('SELECT * FROM app_kanban.rpt_time_life()', function(err, result){
+		if (err) {
+			console.log(err);
+			res.status(500);
+			return;
+		}else{
+			jsonStringify = JSON.stringify(result.rows);
+	      	data = JSON.parse(jsonStringify)
+	     	res.jsonp(data);
+		}
+	});
+});
+
+report.get("/getReportTimeLife", function(req, res) {
+	var jsonStringify, data;
+	client.query('SELECT * FROM app_kanban.sp_report_posit_time_life()', function(err, result){
+		if (err) {
+			console.log(err);
+			res.status(500);
+			return;
+		}else{
+			jsonStringify = JSON.stringify(result.rows);
+	      	data = JSON.parse(jsonStringify)
+	     	res.jsonp(data);
+		}
+	});
+});
+
+report.get("/getReportTimeLife2", function(req, res) {
+	var jsonStringify, data;
+	client.query('SELECT * FROM app_kanban.sp_report_posit_time_life_2()', function(err, result){
+		if (err) {
+			console.log(err);
+			res.status(500);
+			return;
+		}else{
+			jsonStringify = JSON.stringify(result.rows);
+	      	data = JSON.parse(jsonStringify)
+	     	res.jsonp(data);
+		}
+	});
+});
+
 module.exports = report;

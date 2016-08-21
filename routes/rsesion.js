@@ -60,5 +60,28 @@ rsession.get('/getDataUser', function(req, res){
 });
 
 
+rsession.post("/editPerfil", function(req, res){
+	var name = req.body.name;
+    var ape = req.body.ape;
+    var email = req.body.email;
+    var pass = req.body.pass;
+    var confirmPass = req.body.confirmPass;
+
+    if (pass === confirmPass) {
+    	sql = client.query("UPDATE app_kanban.users SET u_username = ($1), u_surname = ($2), u_password = ($3) WHERE u_email = ($4)", [name, ape, pass, email], function(err, result){
+	    	if (err) {
+	    		console.log(err);
+	    		return;
+	    	}else{
+	    		res.end("success");
+	    	}
+	    });
+    }else{
+    	res.end("errorPass");
+    }
+
+    
+});
+
 
 module.exports = rsession;

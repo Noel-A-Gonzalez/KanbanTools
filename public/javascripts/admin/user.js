@@ -49,8 +49,6 @@ var user = function(){
     }
 
     var edit = function(){
-        //$(".btn-save").show();
-        //$(".btn-edit").hide();
         var par = $(this).parents("tr"); //tr 
         var trID = par.attr("id");
         $("#"+trID).find(".btn-edit").hide();
@@ -150,21 +148,47 @@ var user = function(){
             $.get("../rsesion/getDataUser", {user: datos.user})
             .done(function(data){
                 $("#input_userName").attr('disabled','disabled');   
+                $("#input_mail").attr('disabled','disabled');
                 $("#input_name").val(data[0].u_username);
                 $("#input_ape").val(data[0].u_surname);
                 $("#input_mail").val(data[0].u_email);
                 $("#input_userName").val(data[0].userName);
-                $("#input_pass").val(data[0].password);
-                $("#confirmPass").val(data[0].password); 
+                $("#input_pass").val(data[0].u_password);
+                $("#confirmPass").val(data[0].u_password); 
             })
         });
         
+    }
+
+    var editPerfil = function(){
+        var name = $("#input_name").val();
+        var ape = $("#input_ape").val();
+        var email = $("#input_mail").val();
+        var pass = $("#input_pass").val();
+        var confirmPass = $("#confirmPass").val(); 
+
+        $.post("../rsesion/editPerfil", {name:name, ape:ape, email:email, pass:pass, confirmPass:confirmPass})
+        .done(function(res){
+            if (res === 'success') {
+                verifyUser();
+                Lobibox.alert("success",{
+                    title: "Éxito",
+                    msg: "Los datos han sido actualizado con éxito.."
+                });
+            }else{
+                Lobibox.alert("warning", {
+                    title: "Atención",
+                    msg: "Los password no coinciden. Verifique e inténtelo de nuevo.."
+                });
+            }
+        });
     }
 
 	return{
 		initsEvents:initsEvents,
 		getUsers:getUsers,
         verifyUser:verifyUser,
+        editPerfil:editPerfil,
 	}
 }();
 user.initsEvents();

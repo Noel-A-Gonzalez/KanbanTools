@@ -13,6 +13,10 @@ router.get('/', estaLogeado, function(req, res, next) {
 });
 
 /* Panel de administracion/dashboard */
+router.get('/timeLife', estaLogeado, function(req, res, next) {
+    res.render('admin/timeLife.html');
+});
+
 router.get('/admin', estaLogeado, function(req, res, next) {
     res.render('admin/index.html');
 });
